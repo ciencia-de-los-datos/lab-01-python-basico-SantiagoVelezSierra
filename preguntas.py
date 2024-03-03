@@ -13,7 +13,8 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 """
  
 import csv
- 
+
+
 
 def pregunta_01():
     """
