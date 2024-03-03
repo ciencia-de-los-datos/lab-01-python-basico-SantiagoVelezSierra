@@ -12,6 +12,8 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 
+import csv
+
 
 def pregunta_01():
     """
@@ -21,7 +23,18 @@ def pregunta_01():
     214
 
     """
-    return
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+        data = csv.reader(f, delimiter="\t")
+
+        A = []
+        for row in data:
+            n = int(row[1])
+            A.append(n)
+        suma = sum(A)
+    return suma
 
 
 def pregunta_02():
@@ -39,7 +52,21 @@ def pregunta_02():
     ]
 
     """
-    return
+
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+
+        data = f.readlines()
+
+        letters = [row[0] for row in data]
+        c = []
+        num = [letters.count(item) for item in ["A", "B", "C", "D", "E"]]
+        z = ["A", "B", "C", "D", "E"]
+        A = list(zip(z, num))
+
+    return A
 
 
 def pregunta_03():
@@ -57,7 +84,31 @@ def pregunta_03():
     ]
 
     """
-    return
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+        data = csv.reader(f, delimiter="\t")
+
+        letters = []
+        numbers = []
+        for row in data:
+            letters.append(row[0])
+            numbers.append(row[1])
+
+        l = list(zip(letters, numbers))
+
+    sum = {}
+
+    for letter, number in l:
+        if letter in sum:
+            sum[letter] += int(number)
+        else:
+            sum[letter] = int(number)
+
+    result = sorted([(letter, suma) for letter, suma in sum.items()])
+
+    return result
 
 
 def pregunta_04():
@@ -82,7 +133,36 @@ def pregunta_04():
     ]
 
     """
-    return
+
+    import csv
+
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+        data = csv.reader(f, delimiter="\t")
+
+        l = []
+        for row in data:
+            l.append(row[2])
+
+    import re
+
+    meses = []
+    for fecha in l:
+        match = re.search(r"\d{4}-(\d{2})-\d{2}", fecha)
+        if match:
+            mes = match.group(1)
+            meses.append(mes)
+        else:
+            print(f"Error: Formato de fecha inválido - Fecha: {fecha}")
+
+    from collections import Counter
+
+    conteo = Counter(meses)
+    conteo = list(conteo.items())
+    conteo = sorted(conteo)
+    return conteo
 
 
 def pregunta_05():
@@ -100,7 +180,37 @@ def pregunta_05():
     ]
 
     """
-    return
+
+    import csv
+
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+        data = csv.reader(f, delimiter="\t")
+
+        d = {}
+        l = []
+        for row in data:
+            tupla = (row[0], row[1])
+            l.append(tupla)
+        r = []
+
+        for letter, number in l:
+            if letter in d:
+                d[letter].append(number)
+            else:
+                d[letter] = [number]
+
+        resultado = []
+
+        for letter, number in d.items():
+            maximo = int(max(number))
+            minimo = int(min(number))
+            resultado.append((letter, maximo, minimo))
+            resultado = sorted(resultado)
+
+    return resultado
 
 
 def pregunta_06():
@@ -125,7 +235,35 @@ def pregunta_06():
     ]
 
     """
-    return
+
+    import csv
+
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+        data = csv.reader(f, delimiter="\t")
+
+        d = {}
+        for row in data:
+            l = row[4]
+            for item in l.split(","):
+                key, value = item.split(":")
+                value = int(value)
+                if key in d:
+                    d[key].append(value)
+                else:
+                    d[key] = [value]
+
+    resultado = []
+    for key, value in d.items():
+        minimo = min(value)
+        maximo = max(value)
+        resultado.append((key, minimo, maximo))
+
+    resultado = sorted(resultado)
+
+    return resultado
 
 
 def pregunta_07():
@@ -149,7 +287,34 @@ def pregunta_07():
     ]
 
     """
-    return
+    import csv
+
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+        data = csv.reader(f, delimiter="\t")
+
+        lista = []
+        for row in data:
+            tupla = (row[1], row[0])
+            lista.append(tupla)
+
+    d = {}
+    for number, letter in lista:
+        if number in d:
+            d[number].append(letter)
+        else:
+            d[number] = [letter]
+
+    r = []
+
+    for key, value in d.items():
+        r.append((int(key), value))
+
+    r = sorted(r)
+
+    return r
 
 
 def pregunta_08():
@@ -174,7 +339,35 @@ def pregunta_08():
     ]
 
     """
-    return
+
+    import csv
+
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+        data = csv.reader(f, delimiter="\t")
+
+        lista = []
+        for row in data:
+            tupla = (row[1], row[0])
+            lista.append(tupla)
+
+    d = {}
+    for number, letter in lista:
+        if number in d:
+            d[number].append(letter)
+        else:
+            d[number] = [letter]
+
+    r = []
+
+    for key, value in d.items():
+        r.append((int(key), sorted(list(set(value)))))
+
+    r = sorted(r)
+
+    return r
 
 
 def pregunta_09():
@@ -197,7 +390,26 @@ def pregunta_09():
     }
 
     """
-    return
+    import csv
+
+    with open("data.csv", "r") as f:
+        data = csv.reader(f, delimiter="\t")
+
+        s = []
+        for row in data:
+            l = row[4]
+            for item in l.split(","):
+                key, _ = item.split(":")
+                s.append(key)
+
+    from collections import Counter
+
+    s = Counter(s)
+    s = dict(s)
+    s = sorted(s.items())
+    s = dict(s)
+
+    return s
 
 
 def pregunta_10():
@@ -218,7 +430,35 @@ def pregunta_10():
 
 
     """
-    return
+
+    import csv
+
+    with open("data.csv", "r") as f:
+        data = csv.reader(f, delimiter="\t")
+
+        c4 = []
+        c5 = []
+        c1 = []
+        for row in data:
+            c1.append(row[0])
+            c4.append(row[3])
+            c5.append(row[4])
+
+        c4 = [item.split(",") for item in c4]
+        c5 = [item.split(",") for item in c5]
+
+    cc4 = []
+    cc5 = []
+    for i in range(len(c4)):
+        cc4.append(len(c4[i]))
+        cc5.append(len(c5[i]))
+
+    resultado = []
+
+    for i in range(len(c1)):
+        resultado.append((c1[i], cc4[i], cc5[i]))
+
+    return resultado
 
 
 def pregunta_11():
@@ -239,7 +479,41 @@ def pregunta_11():
 
 
     """
-    return
+
+    import csv
+
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+        data = csv.reader(f, delimiter="\t")
+
+        s = []
+        l0 = []
+
+        for row in data:
+            l0.append(row[1])
+            s.append(row[3])
+
+    s = [item.split(",") for item in s]
+
+    d = {}
+
+    lista = []
+
+    for i in range(len(l0)):
+        lista.append((l0[i], s[i]))
+
+    for number, letters in lista:
+        for item in letters:
+            if item in d:
+                d[item] += int(number)
+            else:
+                d[item] = int(number)
+
+    d = sorted(d.items())
+    d = dict(d)
+    return d
 
 
 def pregunta_12():
@@ -257,4 +531,41 @@ def pregunta_12():
     }
 
     """
-    return
+    import csv
+
+    with open(
+        "data.csv",
+        "r",
+    ) as f:
+        data = csv.reader(f, delimiter="\t")
+
+        s = []
+        l0 = []
+
+        for row in data:
+            l0.append(row[0])
+            l = row[4]
+            suma = 0
+            for item in l.split(","):
+                key, value = item.split(":")
+                value = int(value)
+                suma += value
+            s.append(suma)
+
+    lista = []
+    for i in range(len(l0)):
+        lista.append((l0[i], s[i]))
+
+    sum = {}
+
+    for letter, number in lista:
+        if letter in sum:
+            sum[letter] += int(number)
+        else:
+            sum[letter] = int(number)
+
+    result = sorted([(letter, suma) for letter, suma in sum.items()])
+
+    result = dict(result)
+
+    return result
